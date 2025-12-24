@@ -9,9 +9,19 @@ pipeline {
             }
         }
 
-        stage('Verify Files') {
+        stage('Build Docker Image') {
             steps {
-                sh 'ls -l'
+                sh '''
+                  docker build -t azure-cicd-app:latest .
+                '''
+            }
+        }
+
+        stage('Verify Docker Image') {
+            steps {
+                sh '''
+                  docker images | grep azure-cicd-app
+                '''
             }
         }
     }
